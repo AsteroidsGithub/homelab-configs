@@ -22,13 +22,12 @@ x-mediarr-container &mediarr-container:
 
 services: 
   jellyfin: 
-    <<: *default-container
+    <<: *mediarr-container
     container_name: jellyfin 
     image: lscr.io/linuxserver/jellyfin:latest
     hostname: jellyfin 
     volumes: 
       - ./configs/jellyfin:/config 
-      - myMedia:/mnt/media 
     ports: 
       - 8096:8096 
       - 8920:8920
@@ -153,4 +152,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${MEDIA_VOLUME_PATH}
+      device: /mnt/media
