@@ -1,5 +1,5 @@
 ---
-version: 2.1
+version: "2.1"
 
 # Setup default propreties we want on all/most containers
 x-default-container: &default-container
