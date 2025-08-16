@@ -1,6 +1,4 @@
 ---
-version: "2.1"
-
 # Setup default propreties we want on all/most containers
 x-default-container: &default-container
   user: 1000:1000
@@ -8,8 +6,8 @@ x-default-container: &default-container
     - "109"
   environment:
     - PUID=1000 
-    - PGID=100 
-    - TZ=Africa/Casablanca 
+    - PGID=1000
+    - TZ=Pacific/Auckland
   restart: unless-stopped
 
 # containers on the mediarr nework, also have access to specific volumes
@@ -49,7 +47,7 @@ services:
 
   jellyseerr: 
     <<: *mediarr-container
-    image: fallenbagel/jellyseerr:latest 
+    image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr 
     hostname: jellyseerr 
     ports: 
