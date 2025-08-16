@@ -2,7 +2,7 @@
 version: 2.1
 
 # Setup default propreties we want on all/most containers
-x-default-container &default-container:
+x-default-container: &default-container
   user: 1000:1000
   group_add: 
     - "109"
@@ -13,7 +13,7 @@ x-default-container &default-container:
   restart: unless-stopped
 
 # containers on the mediarr nework, also have access to specific volumes
-x-mediarr-container &mediarr-container:
+x-mediarr-container: &mediarr-container
   <<: *default-container
   networks:
     - mediarr
