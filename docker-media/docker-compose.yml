@@ -45,18 +45,18 @@ services:
       - sonarr 
       - radarr 
 
-  jellyseerr: 
-    <<: *mediarr-container
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr 
-    hostname: jellyseerr 
-    ports: 
-      - 5055:5055 
-    volumes: 
-      - ./configs/mediarr/jellyseerr:/app/config 
-    depends_on: 
-      - sonarr 
-      - radarr 
+  # jellyseerr: 
+  #   <<: *mediarr-container
+  #   image: fallenbagel/jellyseerr:latest
+  #   container_name: jellyseerr 
+  #   hostname: jellyseerr 
+  #   ports: 
+  #     - 5055:5055 
+  #   volumes: 
+  #     - ./configs/mediarr/jellyseerr:/app/config 
+  #   depends_on: 
+  #     - sonarr 
+  #     - radarr 
 
   tdarr: 
     <<: *mediarr-container
