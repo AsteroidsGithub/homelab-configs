@@ -1,0 +1,118 @@
+# Compose file for the *arr stack. Configuration files are stored in the 
+# directory you launch the compose file on. Change to bind mounts if needed.
+# All containers are ran with user and group ids of the main user and 
+# group to aviod permissions issues of downloaded files, please refer
+# the read me file for more information.
+
+services:
+  # Torrent client, used to download media.
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    labels:
+      - deunhealth.restart.on.unhealthy=true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - WEBUI_PORT=8080
+    volumes:
+      - /docker/qbittorrent:/config
+      - /mnt/media:/media
+    
+    ports:
+      - 8080:8080 # qbittorrent web interface
+      - 6881:6881 # qbittorrent torrent port
+    healthcheck:
+        test: ping -c 1 www.google.com || exit 1
+        interval: 60s
+        retries: 3
+        start_period: 20s
+        timeout: 10s
+
+  # Indexer for *arr applications, used to search for content.
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/prowlarr:/config
+    
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  # Tv series management application, used to source tv series.
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/sonarr:/config
+      - /mnt/media:/media
+    ports:
+      - 8989:8989
+    
+
+  # Movie management application, used to source movies.
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/radarr:/config
+      - /mnt/media:/media
+    ports:
+      - 7878:7878
+    
+
+  # Subtitle management application, used to download subtitles for media.
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/bazarr:/config
+      - /mnt/media:/media
+    ports:
+      - 6767:6767
+    
+
+  # File transcoder application, used to transcode media files.
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:latest
+    container_name: tdarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/tdarr:/config
+      - /mnt/media:/media
+    ports:
+      - 8265:8265 # tdarr web interface
+
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
