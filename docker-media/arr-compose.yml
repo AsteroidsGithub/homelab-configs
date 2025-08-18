@@ -109,7 +109,7 @@ services:
     ports:
       - 8265:8265 # tdarr web interface
     devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri:/dev/dri
 
   # Used to bypass cloudflare's anti-bot protection.
   flaresolverr:
