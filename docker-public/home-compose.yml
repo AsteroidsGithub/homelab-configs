@@ -1,0 +1,19 @@
+services:
+  homebridge:
+    container_name: homebridge
+    image: homebridge/homebridge:latest
+    network_mode: host
+    restart: always
+    volumes:
+      - ./volumes/homebridge:/homebridge
+
+  airconnect:
+    container_name: airconnect
+    image: 1activegeek/airconnect
+    network_mode: host
+    restart: always
+    volumes:
+      - ./volumes/airconnect:/config
+    environment:
+      - AIRCAST_VAR=-x /config/config.xml
+      - AIRUPNP_VAR=kill
