@@ -5,7 +5,7 @@ services:
     network_mode: host
     restart: always
     volumes:
-      - ./volumes/homebridge:/homebridge
+      - homebridge:/homebridge
 
   airconnect:
     container_name: airconnect
@@ -13,7 +13,11 @@ services:
     network_mode: host
     restart: always
     volumes:
-      - ./volumes/airconnect:/config
+      - airconnect:/config
     environment:
       - AIRCAST_VAR=-x /config/config.xml
       - AIRUPNP_VAR=kill
+
+volumes:
+  homebridge:
+  airconnect:
