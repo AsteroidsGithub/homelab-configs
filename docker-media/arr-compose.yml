@@ -94,20 +94,26 @@ services:
       - 6767:6767
 
   # File transcoder application, used to transcode media files.
-  fileflows:
-    image: revenz/fileflows
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:latest
+    container_name: tdarr
     restart: unless-stopped
-    ports:
-      - "8265:5000"
-    devices:
-      - "/dev/dri:/dev/dri"
     environment:
       - PUID=1000
       - PGID=1000
+      - TZ=Pacific/Auckland
+      - internalNode=true
+      - nodeID=inNode
+      - nodeIP=0.0.0.0
+      - nodePort=8267
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/tdarr:/config
       - /mnt/media:/media
+    ports:
+      - 8265:8265 # tdarr web interface
+    devices:
+      - /dev/dri:/dev/dri
 
   # Used to bypass cloudflare's anti-bot protection.
   flaresolverr:
