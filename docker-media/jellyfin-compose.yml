@@ -7,7 +7,7 @@ services:
       - PGID=1000
       - TZ=Pacific/Auckland
     volumes:
-      - /docker/jellyfin:/config
+      - jellyfin:/config
       - /mnt/media:/media
     ports:
       - 8096:8096
@@ -21,9 +21,13 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/Los_Angeles
+      - TZ=Pacific/Auckland
     volumes:
-      - /docker/jellyseerr:/app/config
+      - jellyseerr:/app/config
     ports:
       - 5055:5055
     restart: unless-stopped
+
+volumes:
+  jellyfin:
+  jellyseerr:

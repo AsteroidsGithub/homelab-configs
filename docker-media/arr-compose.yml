@@ -1,5 +1,5 @@
-# Compose file for the *arr stack. Configuration files are stored in the
-# directory you launch the compose file on. Change to bind mounts if needed.
+# Compose file for the *arr stack. Configuration files are stored in named
+# Docker volumes and the media library remains a host bind mount.
 # All containers are ran with user and group ids of the main user and
 # group to aviod permissions issues of downloaded files, please refer
 # the read me file for more information.
@@ -18,7 +18,8 @@ services:
       - TZ=Pacific/Auckland
       - WEBUI_PORT=9191
     volumes:
-      - /docker/qbittorrent:/config
+      - /etc/localtime:/etc/localtime:ro
+      - qbittorrent:/config
       - /mnt/media:/media
     ports:
       - 9191:9191 # qbittorrent web interface
@@ -34,16 +35,16 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /docker/prowlarr:/config
+      - prowlarr:/config
     ports:
       - 9696:9696
-    restart: unless-stopped
 
   # Tv series management application, used to source tv series.
   sonarr:
@@ -56,7 +57,7 @@ services:
       - TZ=Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /docker/sonarr:/config
+      - sonarr:/config
       - /mnt/media:/media
     ports:
       - 8989:8989
@@ -72,15 +73,14 @@ services:
       - TZ=Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /docker/radarr:/config
+      - radarr:/config
       - /mnt/media:/media
     ports:
       - 7878:7878
 
-  # Subtitle management application, used to download subtitles for media.
-  bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
-    container_name: bazarr
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
     restart: unless-stopped
     environment:
       - PUID=1000
@@ -88,10 +88,10 @@ services:
       - TZ=Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /docker/bazarr:/config
+      - lidarr:/config
       - /mnt/media:/media
     ports:
-      - 6767:6767
+      - 8686:8686
 
   # File transcoder application, used to transcode media files.
   tdarr:
@@ -108,7 +108,7 @@ services:
       - nodePort=8267
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /docker/tdarr:/config
+      - tdarr:/config
       - /mnt/media:/media
     ports:
       - 8265:8265 # tdarr web interface
@@ -126,6 +126,36 @@ services:
       - TZ=Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /docker/flaresolverr:/config
+      - flaresolverr:/config
     ports:
       - 8191:8191 # flaresolverr web interface
+
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - cleanuparr:/config
+    ports:
+      - 11011:11011
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11011/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+
+volumes:
+  qbittorrent:
+  prowlarr:
+  sonarr:
+  radarr:
+  lidarr:
+  tdarr:
+  flaresolverr:
+  cleanuparr:
