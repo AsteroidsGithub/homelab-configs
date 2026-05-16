@@ -7,16 +7,16 @@
 services:
   # Torrent client, used to download media.
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
+    image: lscr.io/linuxserver/qbittorrent:latest
     restart: unless-stopped
     labels:
       - deunhealth.restart.on.unhealthy=true
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
-      - WEBUI_PORT=9191
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
+      WEBUI_PORT: "9191"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - qbittorrent:/config
@@ -33,13 +33,13 @@ services:
 
   # Indexer for *arr applications, used to search for content.
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - prowlarr:/config
@@ -48,13 +48,13 @@ services:
 
   # Tv series management application, used to source tv series.
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - sonarr:/config
@@ -64,13 +64,13 @@ services:
 
   # Movie management application, used to source movies.
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
+    image: lscr.io/linuxserver/radarr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - radarr:/config
@@ -79,13 +79,13 @@ services:
       - 7878:7878
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
+    image: lscr.io/linuxserver/lidarr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - lidarr:/config
@@ -95,17 +95,17 @@ services:
 
   # File transcoder application, used to transcode media files.
   tdarr:
-    image: ghcr.io/haveagitgat/tdarr:latest
     container_name: tdarr
+    image: ghcr.io/haveagitgat/tdarr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
-      - internalNode=true
-      - nodeID=inNode
-      - nodeIP=0.0.0.0
-      - nodePort=8267
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
+      internalNode: "true"
+      nodeID: inNode
+      nodeIP: 0.0.0.0
+      nodePort: "8267"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - tdarr:/config
@@ -117,13 +117,13 @@ services:
 
   # Used to bypass cloudflare's anti-bot protection.
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - flaresolverr:/config
@@ -131,13 +131,13 @@ services:
       - 8191:8191 # flaresolverr web interface
 
   cleanuparr:
-    image: ghcr.io/cleanuparr/cleanuparr:latest
     container_name: cleanuparr
+    image: ghcr.io/cleanuparr/cleanuparr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - cleanuparr:/config

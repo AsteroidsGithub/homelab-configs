@@ -2,26 +2,26 @@ services:
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
-    volumes:
-      - homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
-      - /run/dbus:/run/dbus:ro
     restart: unless-stopped
     privileged: true
     network_mode: host
     environment:
-      - TZ=Pacific/Auckland
+      TZ: Pacific/Auckland
+    volumes:
+      - homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
 
   airconnect:
     container_name: airconnect
     image: 1activegeek/airconnect
-    network_mode: host
     restart: always
+    network_mode: host
+    environment:
+      AIRCAST_VAR: -x /config/config.xml
+      AIRUPNP_VAR: kill
     volumes:
       - airconnect:/config
-    environment:
-      - AIRCAST_VAR=-x /config/config.xml
-      - AIRUPNP_VAR=kill
 
 volumes:
   homeassistant:

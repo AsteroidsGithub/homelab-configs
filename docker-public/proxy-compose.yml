@@ -1,8 +1,10 @@
 services:
   proxy:
-    image: "jc21/nginx-proxy-manager:latest"
     container_name: nginx-proxy-manager
+    image: "jc21/nginx-proxy-manager:latest"
     restart: unless-stopped
+    environment:
+      TZ: Pacific/Auckland
     ports:
       # These ports are in format <host-port>:<container-port>
       - "80:80" # Public HTTP Port
@@ -10,8 +12,6 @@ services:
       - "81:81" # Admin Web Port
       # Add any other Stream port you want to expose
       # - "21:21" # FTP
-    environment:
-      - TZ=Pacific/Auckland
     volumes:
       - proxy-data:/data
       - proxy-letsencrypt:/etc/letsencrypt
@@ -21,8 +21,8 @@ services:
       timeout: 3s
 
   ddns:
-    image: favonia/cloudflare-ddns:latest
     container_name: cloudflare-ddns
+    image: favonia/cloudflare-ddns:latest
     # network_mode: host # This bypasses network isolation and makes IPv6 easier (optional; see below)
     restart: always
     user: "1000:1000" # Run the updater with specific user and group IDs (in that order).
@@ -30,11 +30,11 @@ services:
     cap_drop: [all] # Drop all Linux capabilities (optional but recommended)
     security_opt: [no-new-privileges:true] # Another protection to restrict superuser privileges (optional but recommended)
     environment:
-      - TZ=Pacific/Auckland
-      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN} # Your Cloudflare API token with permissions to edit DNS records
-      - DOMAINS=${DOMAIN} # The domain(s) to update, separated by commas if multiple (e.g., "example.com,www.example.com")
-      - PROXIED=true
-      - IP6_PROVIDER=none
+      TZ: Pacific/Auckland
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN} # Your Cloudflare API token with permissions to edit DNS records
+      DOMAINS: ${DOMAIN} # The domain(s) to update, separated by commas if multiple (e.g., "example.com,www.example.com")
+      PROXIED: "true"
+      IP6_PROVIDER: none
 
 volumes:
   proxy-data:
