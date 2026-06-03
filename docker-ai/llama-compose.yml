@@ -1,0 +1,44 @@
+services:
+  llama:
+    container_name: llama
+    image: ghcr.io/ggml-org/llama.cpp:server
+    restart: unless-stopped
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Pacific/Auckland
+    command: >
+      --port 8080 
+      --host 0.0.0.0 
+      -n 512
+      --spec-type mtp
+      --draft-max 3
+      --draft-p-min 0.0
+      --spec-autotune
+      -cnv
+      --color
+      --jinja
+      --special
+      -sm graph
+      -smgs
+      -sas
+      -mea 256
+      --split-mode-f32
+      --temp 0.7
+      -t 8
+      --parallel 8
+      --cpu-moe
+      --merge-up-gate-experts
+      --flash-attn on
+      --mla-use 3
+      --mlock
+      --run-time-repack
+      --no-kv-offload
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - models:/models
+    ports:
+      - 8080:8080
+
+volumes:
+  models:
