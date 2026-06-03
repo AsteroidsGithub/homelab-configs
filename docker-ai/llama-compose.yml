@@ -10,22 +10,16 @@ services:
     command: >
       --port 8080 
       --host 0.0.0.0 
-      -n 512
-      --spec-type mtp
+      --spec-type draft-mtp
       --draft-max 3
       --draft-p-min 0.0
       --spec-autotune
-      -cnv
       --color
       --jinja
       --special
-      -sm graph
-      -smgs
-      -sas
       -mea 256
       --split-mode-f32
       --temp 0.7
-      -t 8
       --parallel 8
       --cpu-moe
       --merge-up-gate-experts
@@ -34,6 +28,12 @@ services:
       --mlock
       --run-time-repack
       --no-kv-offload
+      -sm graph
+      -n 512
+      -t 8
+      -smgs
+      -sas
+      -cnv
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - models:/models
