@@ -112,8 +112,13 @@ services:
       - /mnt/media:/media
     ports:
       - 8265:8265 # tdarr web interface
-    devices:
-      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, video]
 
   # Used to bypass cloudflare's anti-bot protection.
   flaresolverr:

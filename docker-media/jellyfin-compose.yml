@@ -12,8 +12,13 @@ services:
     volumes:
       - jellyfin:/config
       - /mnt/media:/media
-    devices:
-      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, video]
 
   jellyseerr:
     container_name: jellyseerr
