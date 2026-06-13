@@ -167,6 +167,20 @@ services:
       - profilarr:/config
     ports:
       - "6868:6868"
+      
+  dispatcharr:
+    container_name: dispatcharr
+    image: ghcr.io/dispatcharr/dispatcharr:latest
+    restart: unless-stopped
+    ports:
+      - 8236:9191
+    volumes:
+      - dispatcharr:/data
+    environment:
+      - DISPATCHARR_ENV=aio
+      - REDIS_HOST=localhost
+      - CELERY_BROKER_URL=redis://localhost:6379/0
+      - DISPATCHARR_LOG_LEVEL=info
 
 volumes:
   qbittorrent:
@@ -178,3 +192,4 @@ volumes:
   flaresolverr:
   cleanuparr:
   profilarr:
+  dispatcharr:
