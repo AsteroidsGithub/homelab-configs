@@ -108,7 +108,7 @@ services:
       nodePort: "8267"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - tdarr:/config
+      - tdarr:/app/config
       - /mnt/media:/media
     ports:
       - 8265:8265 # tdarr web interface
@@ -167,7 +167,7 @@ services:
       - profilarr:/config
     ports:
       - "6868:6868"
-      
+
   dispatcharr:
     container_name: dispatcharr
     image: ghcr.io/dispatcharr/dispatcharr:latest
