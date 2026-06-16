@@ -1,44 +1,55 @@
 services:
-  llama:
-    container_name: llama
-    image: ghcr.io/ggml-org/llama.cpp:server
+  llama-server:
+    image: ghcr.io/ikawrakow/ik-llama-cpp:cpu-server
+    container_name: ikllama
     restart: unless-stopped
-    environment:
-      PUID: "1000"
-      PGID: "1000"
-      TZ: Pacific/Auckland
-    command: >
-      --port 8080 
-      --host 0.0.0.0 
-      --spec-type draft-mtp
-      --draft-max 3
-      --draft-p-min 0.0
-      --spec-autotune
-      --color
-      --jinja
-      --special
-      -mea 256
-      --split-mode-f32
-      --temp 0.7
-      --parallel 8
-      --cpu-moe
-      --merge-up-gate-experts
-      --flash-attn on
-      --mla-use 3
-      --mlock
-      --run-time-repack
-      --no-kv-offload
-      -sm graph
-      -n 512
-      -t 8
-      -smgs
-      -sas
-      -cnv
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - models:/models
     ports:
-      - 8080:8080
-
-volumes:
-  models:
+      - "8080:8080"
+    environment:
+      - MODEL_PATH=${MODEL_PATH:-/models/your-model-filename.gguf}
+    volumes:
+      - /mnt/models:/models
+    ulimits:
+      memlock: -1
+    command:
+      - "--model"
+      - "${MODEL_PATH:-/models/your-model-filename.gguf}"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8080"
+      - "--spec-type"
+      - "draft-mtp"
+      - "--draft-max"
+      - "3"
+      - "--draft-p-min"
+      - "0.0"
+      - "--spec-autotune"
+      - "--color"
+      - "--jinja"
+      - "--special"
+      - "-mea"
+      - "256"
+      - "--split-mode-f32"
+      - "--temp"
+      - "0.7"
+      - "--parallel"
+      - "8"
+      - "--cpu-moe"
+      - "--merge-up-gate-experts"
+      - "--flash-attn"
+      - "on"
+      - "--mla-use"
+      - "3"
+      - "--mlock"
+      - "--run-time-repack"
+      - "--no-kv-offload"
+      - "-sm"
+      - "graph"
+      - "-n"
+      - "512"
+      - "-t"
+      - "8"
+      - "-smgs"
+      - "-sas"
+      - "-cnv"
