@@ -14,9 +14,4 @@ services:
     command:
       - "--model"
       - "${MODEL_PATH:-/models/your-model-filename.gguf}"
-      - "--ctx-size"
-      - "4096"
-      - "--spec-draft-n-max"
-      - "3"
-      - "--threads"
-      - "8"
+      - "${ARGS:-}"
