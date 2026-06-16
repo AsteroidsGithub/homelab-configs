@@ -14,4 +14,6 @@ services:
     command:
       - "--model"
       - "${MODEL_PATH:-/models/your-model-filename.gguf}"
-      - "${ARGS:-}"
+      - "--mlock"
+      - "-t"
+      - "8"
