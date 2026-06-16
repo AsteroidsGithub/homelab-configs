@@ -22,8 +22,5 @@ services:
       - "8"
       - "--parallel"
       - "8"
-      - "--mlock"
-      - "--run-time-repack"
-      - "--no-kv-offload"
       - "--draft-max"
       - "3"
