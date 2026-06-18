@@ -182,6 +182,22 @@ services:
       - CELERY_BROKER_URL=redis://localhost:6379/0
       - DISPATCHARR_LOG_LEVEL=info
 
+  bazarr:
+    container_name: bazarr
+    image: lscr.io/linuxserver/bazarr:latest
+    restart: unless-stopped
+    ports:
+      - 6767:6767
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - bazarr:/config
+      - /mnt/media:/media
+
+
 volumes:
   qbittorrent:
   prowlarr:
@@ -193,3 +209,4 @@ volumes:
   cleanuparr:
   profilarr:
   dispatcharr:
+  bazarr:
