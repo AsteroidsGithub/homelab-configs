@@ -97,8 +97,9 @@ services:
       nodePort: "8267"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - tdarr:/app/configs
       - /mnt/media:/media
+      - tdarr_configs:/app/configs
+      - tdarr_server:/app/server
     ports:
       - 8265:8265 # tdarr web interface
     deploy:
@@ -186,13 +187,13 @@ services:
       - bazarr:/config
       - /mnt/media:/media
 
-
 volumes:
   qbittorrent:
   prowlarr:
   sonarr:
   radarr:
-  tdarr:
+  tdarr_configs:
+  tdarr_server:
   flaresolverr:
   cleanuparr:
   profilarr:
