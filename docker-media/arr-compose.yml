@@ -8,7 +8,7 @@ services:
   # Torrent client, used to download media.
   qbittorrent:
     container_name: qbittorrent
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:libtorrentv1
     restart: unless-stopped
     labels:
       - deunhealth.restart.on.unhealthy=true
