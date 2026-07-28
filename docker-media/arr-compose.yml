@@ -85,7 +85,7 @@ services:
   # File transcoder application, used to transcode media files.
   tdarr:
     container_name: tdarr
-    image: ghcr.io/haveagitgat/tdarr:latest
+    image: ghcr.io/haveagitgat/tdarr:2.84.01
     restart: unless-stopped
     environment:
       PUID: "1000"
