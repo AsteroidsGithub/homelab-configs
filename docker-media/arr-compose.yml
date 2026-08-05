@@ -23,7 +23,7 @@ services:
       - /mnt/media:/media
     ports:
       - 9191:9191 # qbittorrent web interface
-      - 6881:6881 # qbittorrent torrent port
+      - 49629:49629 # qbittorrent torrent port
     deploy:
       resources:
         limits:
