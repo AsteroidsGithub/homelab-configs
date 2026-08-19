@@ -195,7 +195,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Pacific/Auckland
-      - CHANNELS_CONF=/config/channels.conf
+      - CHANNELS_CONF=./config/channels.conf
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - hls-restream:/app/config
