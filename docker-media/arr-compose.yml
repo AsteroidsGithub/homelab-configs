@@ -187,6 +187,21 @@ services:
       - bazarr:/config
       - /mnt/media:/media
 
+  hls-restream:
+    container_name: hls-restream
+    image: ghcr.io/pcruz1905/hls-restream-proxy:latest
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - CHANNELS_CONF=/config/channels.conf
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - hls-restream:/config
+    ports:
+      - 8089:8089
+
 volumes:
   qbittorrent:
   prowlarr:
@@ -199,3 +214,4 @@ volumes:
   profilarr:
   dispatcharr:
   bazarr:
+  hls-restream:
