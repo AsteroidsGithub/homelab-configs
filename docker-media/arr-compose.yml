@@ -198,7 +198,7 @@ services:
       - CHANNELS_CONF=/config/channels.conf
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - hls-restream:/config
+      - hls-restream:/app/config
     ports:
       - 8089:8089
 
