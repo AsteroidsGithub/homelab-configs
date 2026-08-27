@@ -12,6 +12,16 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
 
+  matterbridge:
+    container_name: matterbridge
+    image: luligu/matterbridge:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - matterbridge:/root/Matterbridge
+      - matterbridge:/root/.matterbridge
+      - matterbridge:/root/.mattercert
+
   airconnect:
     container_name: airconnect
     image: 1activegeek/airconnect
