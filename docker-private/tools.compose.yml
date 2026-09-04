@@ -1,0 +1,14 @@
+services:
+  glance:
+    container_name: glance
+    image: glanceapp/glance:latest
+    restart: unless-stopped
+    environment:
+      TZ: Pacific/Auckland
+    ports:
+      - 8080:8080
+    volumes:
+      - glance:/app/config
+
+volumes:
+  glance:
