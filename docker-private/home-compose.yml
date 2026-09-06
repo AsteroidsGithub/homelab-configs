@@ -11,8 +11,6 @@ services:
       - homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
 
   matterbridge:
     container_name: matterbridge
@@ -23,6 +21,20 @@ services:
       - matterbridge:/root/Matterbridge
       - matterbridge:/root/.matterbridge
       - matterbridge:/root/.mattercert
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: ghcr.io/koenkk/zigbee2mqtt
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      TZ: Pacific/Auckland
+    volumes:
+      - zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+      - /etc/localtime:/etc/localtime:ro
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
 
   airconnect:
     container_name: airconnect
@@ -39,3 +51,4 @@ volumes:
   homeassistant:
   airconnect:
   matterbridge:
+  zigbee2mqtt:
