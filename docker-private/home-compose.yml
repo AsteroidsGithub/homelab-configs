@@ -26,9 +26,10 @@ services:
     container_name: zigbee2mqtt
     image: ghcr.io/koenkk/zigbee2mqtt
     restart: unless-stopped
-    network_mode: host
     environment:
       TZ: Pacific/Auckland
+    ports:
+      - 3080:8080
     volumes:
       - zigbee2mqtt:/app/data
       - /run/udev:/run/udev:ro
