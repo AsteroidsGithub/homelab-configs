@@ -30,13 +30,24 @@ services:
       TZ: Pacific/Auckland
     ports:
       - 3080:8080
-      - 1883:1883
     volumes:
       - zigbee2mqtt:/app/data
       - /run/udev:/run/udev:ro
       - /etc/localtime:/etc/localtime:ro
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
+      
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:latest
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - mosquitto:/mosquitto/config
+      - mosquitto:/mosquitto/data
+      - mosquitto:/mosquitto/log
 
   airconnect:
     container_name: airconnect
@@ -54,3 +65,4 @@ volumes:
   airconnect:
   matterbridge:
   zigbee2mqtt:
+  mosquitto:
