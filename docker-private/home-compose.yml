@@ -30,6 +30,7 @@ services:
       TZ: Pacific/Auckland
     ports:
       - 3080:8080
+      - 1883:1883
     volumes:
       - zigbee2mqtt:/app/data
       - /run/udev:/run/udev:ro
