@@ -12,15 +12,19 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
 
-  matterbridge:
-    container_name: matterbridge
-    image: luligu/matterbridge:latest
-    restart: always
+  matter-hub:
+    container_name: matter-hub
+    image: ghcr.io/riddix/home-assistant-matter-hub:latest
+    restart: unless-stopped
     network_mode: host
+    environment:
+      TZ: Pacific/Auckland
+      HAMH_HOME_ASSISTANT_URL: ${HOME_ASSISTANT_URL}
+      HAMH_HOME_ASSISTANT_PORT: ${HOME_ASSISTANT_PORT}
+      HAMH_HOME_ASSISTANT_ACCESS_TOKEN: ${HOME_ASSISTANT_ACCESS_TOKEN}
+      HAMH_LOG_LEVEL: info
     volumes:
-      - matterbridge:/root/Matterbridge
-      - matterbridge:/root/.matterbridge
-      - matterbridge:/root/.mattercert
+      - matter-hub:/data
 
   zigbee2mqtt:
     container_name: zigbee2mqtt
@@ -36,7 +40,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
-      
+
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto:latest
@@ -63,6 +67,7 @@ services:
 volumes:
   homeassistant:
   airconnect:
+  matter-hub:
   matterbridge:
   zigbee2mqtt:
   mosquitto:
