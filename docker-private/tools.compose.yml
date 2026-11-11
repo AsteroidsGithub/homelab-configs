@@ -18,7 +18,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - STGUIADDRESS=127.0.0.1:8384
+      - STGUIADDRESS=0.0.0.0:8384
     volumes:
       - syncthing:/var/syncthing
       - /mnt/sync:/var/syncthing/Sync
