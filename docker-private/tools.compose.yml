@@ -22,7 +22,6 @@ services:
     volumes:
       - syncthing:/var/syncthing
       - /mnt/sync:/var/syncthing/Sync
-    restart: unless-stopped
 
 volumes:
   glance:
